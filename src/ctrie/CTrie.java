@@ -3,11 +3,23 @@ package ctrie;
 import ctrie.node.*;
 
 public class CTrie<K, V> {
-	private INode<K, V> root;
 	
-	public CTrie(){
+	private CTrie(){
 		CNode<K, V> cn = new CNode<>();
 		root = new INode<K, V>(cn);
+	}
+	
+	/** Holder */
+	private static class SingletonHolder<K, V>
+	{		
+		/** Instance unique non préinitialisée */
+		private final static CTrie<String, String> instance = new CTrie<>();
+	}
+	
+	/** Point d'accès pour l'instance unique du singleton */
+	public static CTrie<String, String> getInstance()
+	{
+		return SingletonHolder.instance;
 	}
 	
 	public ValueResult<V> lookup(K key){
@@ -20,11 +32,12 @@ public class CTrie<K, V> {
 		}
 	}
 	
-	public void insert (K key, V value){
+	public Result insert (K key, V value){
 		INode<K, V> r = root;
 		if (r.iinsert(key, value, 0, null) == Result.RESTART){
 			insert(key, value);
 		}
+		return Result.OK;
 	}
 	
 	public ValueResult<V> remove (K key){
@@ -36,4 +49,6 @@ public class CTrie<K, V> {
 			return remove(key);
 		}
 	}
+	
+	private INode<K, V> root;
 }
