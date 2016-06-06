@@ -2,12 +2,8 @@ package main;
 
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.Vector;
 
 import command.CommandFactory;
-import ctrie.CTrie;
-import ctrie.Result;
-import ctrie.ValueResult;
 
 public class Interpreter {
 	

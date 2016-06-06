@@ -27,6 +27,6 @@ public class SNode<K, V> extends Branch<K, V> {
 	}
 	
 	public MainNode<K, V> enTomb(){
-		
+		return new TNode<K, V>(new SNode<K, V>(key, value));
 	}
 }

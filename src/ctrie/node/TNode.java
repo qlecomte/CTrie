@@ -9,6 +9,6 @@ public class TNode<K, V> extends MainNode<K, V> {
 	}
 	
 	public Branch<K, V> resurrect(){
-		
+		return new SNode<K, V>(sn.getKey(), sn.getValue());
 	}
 }

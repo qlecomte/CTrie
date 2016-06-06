@@ -1,15 +1,21 @@
 package main;
 
 import ctrie.CTrie;
+import ctrie.Result;
+import ctrie.ValueResult;
+
+import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ThreadBenchmark extends Thread{
 	
 	char[] charTable;
 	int insertingOpe;
+	int threadNumber;
 	
-	public ThreadBenchmark(int insertingOpe){
+	public ThreadBenchmark(int insertingOpe, int n){
 		this.insertingOpe = insertingOpe;
+		this.threadNumber = n;
 		
 		charTable = new char[62];
 		for (char i = 0; i < 26; ++i){
@@ -22,13 +28,27 @@ public class ThreadBenchmark extends Thread{
 	}
 	
 	public void run() {
+		Vector<String> listKey = new Vector<>();
+		
 		for (int i = 0; i < insertingOpe; i++){
 			String key = randomKey();
+			listKey.addElement(key);
+			
 		    String value = randomValue();
 			CTrie.getInstance().insert(key, value);
-			System.out.println("Key : " + key + ", Value : " + value);
+			//System.out.println(/*threadNumber + ":" + i + */" - Key : " + key + ", Value : " + value);
+		}
+		
+		for (String key : listKey){
+			ValueResult<String> res = CTrie.getInstance().lookup(key);
+			if (res.getRes() == Result.NOTFOUND){
+				System.out.println("---- Not found : " + key);
+			}else{
+				System.out.println(res.getValue());
+			}
 		}
 	    
+		System.out.println("END");
 	} 
 	
 	/**

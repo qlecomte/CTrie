@@ -5,7 +5,7 @@ import ctrie.node.*;
 public class CTrie<K, V> {
 	
 	private CTrie(){
-		CNode<K, V> cn = new CNode<>();
+		CNode<K, V> cn = new CNode<>(0, new BasicNode[]{});
 		root = new INode<K, V>(cn);
 	}
 	

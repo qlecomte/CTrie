@@ -61,6 +61,7 @@ public class CommandFactory {
 	}
 	
 	public void insert(String[] args){
+		
 		if (args.length == 2){
 			if(CTrie.getInstance().insert(args[0], args[1]) == Result.OK){
 				System.out.println("Info - Insert : Pair {" + args[0] + ", " + args[1] + "} is inserted in the CTrie.");
@@ -74,10 +75,9 @@ public class CommandFactory {
 		
 	}
 	
-	public void lookup(String[] args){
+	public void lookup(String[] args){	
 		if (args.length == 1){
 			ValueResult<String> result = CTrie.getInstance().lookup(args[0]);
-			
 			if (result.getRes() == Result.OK){
 				System.out.println("Info - Lookup : Key " + args[0] + " has " + result.getValue() + " for value in the CTrie.");
 			}else if(result.getRes() == Result.NOTFOUND){
@@ -92,7 +92,7 @@ public class CommandFactory {
 	
 	public void remove(String[] args){
 		if (args.length == 1){
-			ValueResult<String> result = CTrie.getInstance().lookup(args[0]);
+			ValueResult<String> result = CTrie.getInstance().remove(args[0]);
 			
 			if (result.getRes() == Result.OK){
 				System.out.println("Key " + args[0] + " has been deleted from the CTrie.");
@@ -109,11 +109,11 @@ public class CommandFactory {
 	public void benchmark(){
 		System.out.println("Begin benchmark");
 
-		int threadNumber = 2;
+		int threadNumber = 1;
 		Vector<Thread> vectorThread = new Vector<>();
 		
 		for (int i = 0; i<threadNumber; i++){
-			Thread t = new ThreadBenchmark(5);
+			Thread t = new ThreadBenchmark(15, i);
 			vectorThread.add(t);
 			
 			t.start();
