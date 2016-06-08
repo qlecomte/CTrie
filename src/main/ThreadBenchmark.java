@@ -1,22 +1,32 @@
 package main;
 
 import ctrie.CTrie;
-import ctrie.Result;
-import ctrie.ValueResult;
 
 import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class ThreadBenchmark extends Thread{
 	
-	char[] charTable;
-	int insertingOpe;
-	int threadNumber;
+	public static enum Type{
+		INSERT, LOOKUP, REMOVE
+	}
 	
-	public ThreadBenchmark(int insertingOpe, int n){
-		this.insertingOpe = insertingOpe;
-		this.threadNumber = n;
+
+	public ThreadBenchmark(int operation, Type t){
+		this.type = t;
+		this.operation = operation;
 		
+		setup();
+	}
+	
+	public ThreadBenchmark(int operation, Type t, Vector<String> keys){
+		this.type = t;
+		this.operation = operation;
+		
+		this.keys = keys;
+	}
+	
+	private void setup(){
 		charTable = new char[62];
 		for (char i = 0; i < 26; ++i){
 			charTable[i] = (char) (i + 'A');
@@ -25,31 +35,42 @@ public class ThreadBenchmark extends Thread{
 		for (char i = 0; i < 10; ++i){
 			charTable[i+52] = (char) (i + '0');
 		}
+		
+		keys = new Vector<>();
+		values = new Vector<>();
+		for (int i = 0; i < operation; ++i){
+			keys.add(randomKey());
+			values.add(randomValue());
+		}
 	}
 	
+	@Override
 	public void run() {
-		Vector<String> listKey = new Vector<>();
-		
-		for (int i = 0; i < insertingOpe; i++){
-			String key = randomKey();
-			listKey.addElement(key);
-			
-		    String value = randomValue();
-			CTrie.getInstance().insert(key, value);
-			//System.out.println(/*threadNumber + ":" + i + */" - Key : " + key + ", Value : " + value);
-		}
-		
-		for (String key : listKey){
-			ValueResult<String> res = CTrie.getInstance().lookup(key);
-			if (res.getRes() == Result.NOTFOUND){
-				System.out.println("---- Not found : " + key);
-			}else{
-				System.out.println(res.getValue());
+		if (type == Type.INSERT){	
+			for (int i = 0; i < operation; i++){	
+				String key = keys.elementAt(i);
+				String value = values.elementAt(i);
+				
+				CTrie.getInstance().insert(key, value);
+			}
+		}else if(type == Type.LOOKUP){
+			for (int i = 0; i < operation; i++){
+				String key = getRandomKey();
+				CTrie.getInstance().lookup(key);
+			}
+		}else if(type == Type.REMOVE){
+			for (int i = 0; i < operation; i++){
+				String key = getRandomKey();
+				CTrie.getInstance().remove(key);
 			}
 		}
-	    
-		System.out.println("END");
+		
+		
 	} 
+	
+	public Vector<String> getKeys(){
+		return keys;
+	}
 	
 	/**
 	 * Generate a 8-char random String key
@@ -57,6 +78,14 @@ public class ThreadBenchmark extends Thread{
 	 */
 	private String randomKey(){
 		return randomString(8);
+	}
+	
+	/**
+	 * Retrieve a random key from the vector keys
+	 * @return A random key, in ASCII
+	 */
+	private String getRandomKey(){
+		return keys.elementAt(ThreadLocalRandom.current().nextInt(0, keys.size()-1));
 	}
 	
 	/**
@@ -82,4 +111,10 @@ public class ThreadBenchmark extends Thread{
 		return stringRandomized;
 	}
 	
+	private char[] charTable;
+	private int operation;
+	private Type type;	
+	
+	private Vector<String> keys;
+	private Vector<String> values;
 }

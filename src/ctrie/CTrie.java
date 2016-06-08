@@ -50,5 +50,10 @@ public class CTrie<K, V> {
 		}
 	}
 	
+	public void clear(){
+		CNode<K, V> cn = new CNode<>(0, new BasicNode[]{});
+		root = new INode<K, V>(cn);
+	}
+	
 	private INode<K, V> root;
 }

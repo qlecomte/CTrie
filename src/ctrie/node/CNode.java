@@ -76,7 +76,7 @@ public class CNode<K, V> extends MainNode<K, V> {
         return new CNode<K, V> (bmp ^ flag, narr);
 	}
 	
-	public CNode<K, V> toCompressed(int level){
+	public MainNode<K, V> toCompressed(int level){
         int i = 0;
         BasicNode[] tmparray = new BasicNode[array.length];
         while (i < array.length) { // construct new bitmap
@@ -93,15 +93,15 @@ public class CNode<K, V> extends MainNode<K, V> {
             i += 1;
         }
 
-        return new CNode<K, V> (bmp, tmparray).toContracted(level);
+        return new CNode<K, V>(bmp, tmparray).toContracted(level);
 	}
 	
-	public CNode<K, V> toContracted(int level){
+	public MainNode<K, V> toContracted(int level){
 		if (array.length == 1 && level > 0) {
             if (array [0] instanceof SNode) {
                 @SuppressWarnings("unchecked")
 				SNode<K, V> sn = (SNode<K, V>)array[0];
-                return (CNode<K, V>) sn.enTomb();
+                return sn.enTomb();
             } else
                 return this;
 

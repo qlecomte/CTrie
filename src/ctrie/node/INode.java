@@ -100,7 +100,6 @@ public class INode<K, V> extends Branch<K, V>{
 			int flag = computeFlag(key.hashCode(), level);
 			int pos = computePos(flag, cn.getBmp());
 			if ((cn.getBmp() & flag) == 0){
-				System.out.print("1");
 				return new ValueResult<V>(Result.NOTFOUND);
 			}
 			
@@ -150,7 +149,7 @@ public class INode<K, V> extends Branch<K, V>{
 					res = new ValueResult<V>(Result.NOTFOUND);
 				}else {
 					CNode<K, V> ncn = cn.removed(pos, flag);
-					CNode<K, V> cntr = ncn.toContracted(level);
+					MainNode<K, V> cntr = ncn.toContracted(level);
 					if (CAS(cn, cntr)){
 						res = new ValueResult<V>(sn.getValue());
 					}else{
@@ -220,7 +219,7 @@ public class INode<K, V> extends Branch<K, V>{
 			if (m instanceof TNode){
 				CNode<K, V> ncn = cn.updated(pos, ((TNode<K, V>)m).resurrect());
 				if (!CAS(cn, ncn.toContracted(level))){
-					cleanParent(parent, i, hashKey, level);
+					//cleanParent(parent, i, hashKey, level);
 				}
 			}
 			
