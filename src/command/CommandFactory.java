@@ -121,13 +121,14 @@ public class CommandFactory {
 		operations.add(100);
 		operations.add(1000);
 		operations.add(10000);
+		operations.add(100000);
 			
 		String separateur = "|---------------|---------------|---------------|---------------|";
 		
 		
 		// Insert
 		System.out.println(separateur);
-		System.out.println("|    Insert\t|   100 ope\t|   1000 ope\t|   10000 ope\t|");
+		System.out.println("|    Insert\t|   100 ope\t|   1000 ope\t|   10000 ope\t| 100000 ope\t");
 		System.out.println(separateur);
 		
 		for(int nbThread : thNbBenchmark){
@@ -151,7 +152,7 @@ public class CommandFactory {
 		
 		// Lookup
 		System.out.println(separateur);
-		System.out.println("|    Lookup\t|  100 lookup\t|  1000 lookup\t|  10000 lookup\t|");
+		System.out.println("|    Lookup\t|   100 ope\t|   1000 ope\t|   10000 ope\t| 100000 ope\t");
 		System.out.println(separateur);
 		
 		
@@ -177,7 +178,7 @@ public class CommandFactory {
 		
 		// Remove
 		System.out.println(separateur);
-		System.out.println("|    Remove\t|  100 remove\t|  1000 remove\t|  10000 remove\t|");
+		System.out.println("|    Remove\t|   100 ope\t|   1000 ope\t|   10000 ope\t| 100000 ope\t");
 		System.out.println(separateur);
 		
 		

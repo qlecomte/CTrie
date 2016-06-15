@@ -73,7 +73,7 @@ public class CNode<K, V> extends MainNode<K, V> {
         BasicNode[] narr = new BasicNode[len - 1];
         System.arraycopy (arr, 0, narr, 0, pos);
         System.arraycopy (arr, pos + 1, narr, pos, len - pos - 1);
-        return new CNode<K, V> (bmp ^ flag, narr);
+        return new CNode<K, V> (bmp & flag, narr);
 	}
 	
 	public MainNode<K, V> toCompressed(int level){
