@@ -1,5 +1,5 @@
 # CTrie
-Concurrent Hash Tree (CTrie) implementation in C++
+Concurrent Hash Tree ([CTrie](https://en.wikipedia.org/wiki/Ctrie)) implementation in Java
 
 Copyright (C) 2016 Q.Lecomte & M.Bourgeois
 
